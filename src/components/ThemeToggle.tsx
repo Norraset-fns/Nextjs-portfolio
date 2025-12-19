@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 
 const ThemeToggle = () => {
     // 1. เริ่มต้นด้วยค่าคงที่เสมอ เพื่อให้ Server และ Client ตรงกันในตอนแรก
-    const [theme, setTheme] = useState("light")
+    const [theme, setTheme] = useState("dark")
 
     // 2. สร้างตัวแปรเช็คว่าโหลดเข้า Browser หรือยัง
     const [mounted, setMounted] = useState(false)
@@ -15,10 +15,20 @@ const ThemeToggle = () => {
 
     // 3. useEffect นี้ทำงานเฉพาะตอนโหลดเสร็จแล้ว (Client Side Only)
     useEffect(() => {
-        setMounted(true) // บอกว่าโหลดเสร็จแล้ว
+        setMounted(true)
+
         const storedTheme = localStorage.getItem("theme")
+
         if (storedTheme) {
+            // 3.1 ถ้าเคยเลือกเองและบันทึกไว้ ให้ใช้ค่านั้น
             setTheme(storedTheme)
+        } else {
+            // 3.2 ถ้าไม่เคยบันทึก (เข้าเว็บครั้งแรก) ให้เช็คจากคอมพิวเตอร์
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                setTheme("dark")
+            } else {
+                setTheme("light")
+            }
         }
     }, [])
 
