@@ -34,6 +34,7 @@ const Navbar = () => {
                     </div>
                     {/* mobile navigation */}
                     <div className="flex items-center gap-2 md:hidden">
+                        <ThemeToggle />
                         <button onClick={() => setIsOpen(!isOpen)} className="text-foreground cursor-pointer">
                             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                         </button>
